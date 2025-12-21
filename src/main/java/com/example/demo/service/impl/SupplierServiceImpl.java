@@ -4,14 +4,15 @@ import com.example.demo.entity.Supplier;
 import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.repository.SupplierRepository;
 import com.example.demo.service.SupplierService;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class SupplierServiceImpl implements SupplierService {
 
     private final SupplierRepository supplierRepository;
 
-    // EXACT constructor expected by tests
     public SupplierServiceImpl(SupplierRepository supplierRepository) {
         this.supplierRepository = supplierRepository;
     }

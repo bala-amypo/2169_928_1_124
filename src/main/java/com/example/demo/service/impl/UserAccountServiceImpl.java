@@ -5,13 +5,14 @@ import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.repository.UserAccountRepository;
 import com.example.demo.service.UserAccountService;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
 
+@Service
 public class UserAccountServiceImpl implements UserAccountService {
 
     private final UserAccountRepository repository;
     private final PasswordEncoder passwordEncoder;
 
-    // EXACT constructor order required
     public UserAccountServiceImpl(
             UserAccountRepository repository,
             PasswordEncoder passwordEncoder) {

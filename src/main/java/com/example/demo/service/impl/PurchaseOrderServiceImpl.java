@@ -7,17 +7,18 @@ import com.example.demo.repository.PurchaseOrderRepository;
 import com.example.demo.repository.SupplierRepository;
 import com.example.demo.repository.SpendCategoryRepository;
 import com.example.demo.service.PurchaseOrderService;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
 
+@Service
 public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 
     private final PurchaseOrderRepository poRepository;
     private final SupplierRepository supplierRepository;
     private final SpendCategoryRepository categoryRepository;
 
-    // EXACT constructor order required
     public PurchaseOrderServiceImpl(
             PurchaseOrderRepository poRepository,
             SupplierRepository supplierRepository,
