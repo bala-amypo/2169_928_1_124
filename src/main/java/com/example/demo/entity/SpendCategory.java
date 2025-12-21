@@ -9,11 +9,13 @@ public class SpendCategory {
     @GeneratedValue
     private Long id;
 
-    @Column(unique = true)
     private String name;
-
     private String description;
     private Boolean active = true;
 
-    // getters and setters
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+
+    public Boolean getActive() { return active; }
+    public void setActive(Boolean active) { this.active = active; }
 }

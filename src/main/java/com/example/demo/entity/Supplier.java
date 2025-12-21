@@ -11,12 +11,8 @@ public class Supplier {
     @GeneratedValue
     private Long id;
 
-    @Column(unique = true)
     private String name;
-
-    @Column(unique = true)
     private String email;
-
     private String registrationNumber;
     private String phone;
     private String address;
@@ -24,7 +20,6 @@ public class Supplier {
     private Boolean isActive = true;
 
     private Instant createdAt;
-    private Instant updatedAt;
 
     @ManyToMany
     private List<DiversityClassification> diversityClassifications;
@@ -34,5 +29,9 @@ public class Supplier {
         createdAt = Instant.now();
     }
 
-    // getters and setters
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+
+    public Boolean getIsActive() { return isActive; }
+    public void setIsActive(Boolean isActive) { this.isActive = isActive; }
 }

@@ -13,8 +13,9 @@ public class DiversityTarget {
     private Double targetPercentage;
     private Boolean active = true;
 
-    @ManyToOne
-    private DiversityClassification classification;
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-    // getters and setters
+    public Boolean getActive() { return active; }
+    public void setActive(Boolean active) { this.active = active; }
 }

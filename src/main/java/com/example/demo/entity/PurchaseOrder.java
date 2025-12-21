@@ -11,7 +11,6 @@ public class PurchaseOrder {
     @GeneratedValue
     private Long id;
 
-    @Column(unique = true)
     private String poNumber;
 
     @ManyToOne
@@ -22,8 +21,13 @@ public class PurchaseOrder {
 
     private BigDecimal amount;
     private LocalDate dateIssued;
-    private String approvedBy;
-    private String notes;
 
-    // getters and setters
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+
+    public BigDecimal getAmount() { return amount; }
+    public void setAmount(BigDecimal amount) { this.amount = amount; }
+
+    public LocalDate getDateIssued() { return dateIssued; }
+    public void setDateIssued(LocalDate dateIssued) { this.dateIssued = dateIssued; }
 }
