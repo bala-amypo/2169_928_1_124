@@ -16,7 +16,7 @@ public class UserAccountServiceImpl implements UserAccountService {
     private UserAccountRepository userAccountRepository;
 
     @Override
-    public UserAccount saveUser(UserAccount userAccount) {
+    public UserAccount register(UserAccount userAccount) {
         return userAccountRepository.save(userAccount);
     }
 
@@ -32,7 +32,8 @@ public class UserAccountServiceImpl implements UserAccountService {
 
     @Override
     public UserAccount updateUser(Long id, UserAccount userAccount) {
-        UserAccount existingUser = userAccountRepository.findById(id).orElse(null);
+        UserAccount existingUser =
+                userAccountRepository.findById(id).orElse(null);
 
         if (existingUser != null) {
             existingUser.setEmail(userAccount.getEmail());
