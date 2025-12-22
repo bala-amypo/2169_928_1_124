@@ -35,7 +35,6 @@ public class UserAccountServiceImpl implements UserAccountService {
         UserAccount existingUser = userAccountRepository.findById(id).orElse(null);
 
         if (existingUser != null) {
-            existingUser.setUsername(userAccount.getUsername());
             existingUser.setEmail(userAccount.getEmail());
             existingUser.setPassword(userAccount.getPassword());
             return userAccountRepository.save(existingUser);
@@ -47,5 +46,12 @@ public class UserAccountServiceImpl implements UserAccountService {
     @Override
     public void deleteUser(Long id) {
         userAccountRepository.deleteById(id);
+    }
+
+    @Override
+    public UserAccount findByEmailOrThrow(String email) {
+        return userAccountRepository.findByEmail(email)
+                .orElseThrow(() ->
+                        new RuntimeException("User not found with email: " + email));
     }
 }
