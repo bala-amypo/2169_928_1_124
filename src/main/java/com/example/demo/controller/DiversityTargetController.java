@@ -32,10 +32,6 @@ public class DiversityTargetController {
         return service.getAllTargets();
     }
 
-    @GetMapping("/year/{year}")
-    public List<DiversityTarget> getByYear(@PathVariable Integer year) {
-        return service.getTargetsByYear(year);
-    }
 
     @DeleteMapping("/{id}")
     public void deactivate(@PathVariable Long id) {
