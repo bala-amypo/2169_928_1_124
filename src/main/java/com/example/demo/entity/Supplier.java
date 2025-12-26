@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
+@Table(name = "supplier")
 public class Supplier {
 
     @Id
@@ -13,44 +14,93 @@ public class Supplier {
     private Long id;
 
     private String name;
+
     private String email;
+
     private String registrationNumber;
 
-    private Boolean isActive;
+    private boolean isActive = true;
 
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
-
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+        name = "supplier_diversity_classification",
+        joinColumns = @JoinColumn(name = "supplier_id"),
+        inverseJoinColumns = @JoinColumn(name = "classification_id")
+    )
     private Set<DiversityClassification> diversityClassifications = new HashSet<>();
 
-    @PrePersist
-    public void prePersist() {
-        this.isActive = true;
-        this.createdAt = LocalDateTime.now();
+    private LocalDateTime createdAt;
+
+    private LocalDateTime updatedAt;
+
+    /* ===================== Constructors ===================== */
+
+    public Supplier() {
     }
 
-    // ---------- GETTERS & SETTERS ----------
+    /* ===================== Getters & Setters ===================== */
 
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    public Long getId() {
+        return id;
+    }
 
-    public String getName() { return name; }
-    public void setName(String name) { this.name = name; }
+    public String getName() {
+        return name;
+    }
 
-    public String getEmail() { return email; }
-    public void setEmail(String email) { this.email = email; }
+    public void setName(String name) {
+        this.name = name;
+    }
 
-    public String getRegistrationNumber() { return registrationNumber; }
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getRegistrationNumber() {
+        return registrationNumber;
+    }
+
     public void setRegistrationNumber(String registrationNumber) {
         this.registrationNumber = registrationNumber;
     }
 
-    public Boolean getIsActive() { return isActive; }
-    public void setIsActive(Boolean active) { this.isActive = active; }
+    public boolean isActive() {
+        return isActive;
+    }
 
-    public LocalDateTime getCreatedAt() { return createdAt; }
+    public void setIsActive(boolean active) {
+        this.isActive = active;
+    }
 
-    public LocalDateTime getUpdatedAt() { return updatedAt; }
-    public void setUpdatedAt(LocalDateTime updatedAt
+    public Set<DiversityClassification> getDiversityClassifications() {
+        return diversityClassifications;
+    }
+
+    public void setDiversityClassifications(Set<DiversityClassification> diversityClassifications) {
+        this.diversityClassifications = diversityClassifications;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+
+    /* ===================== JPA Lifecycle ===================== */
+
+    @PrePersist
+    protected void onCreate() {
+        this.createdAt = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        this.updatedAt = LocalDateTime.now();
+    }
 }
