@@ -1,8 +1,21 @@
 package com.example.demo.dto;
 
 public class JwtResponse {
-    public String token;
-    public Long userId;
-    public String email;
-    public String role;
+
+    private String token;
+
+    public JwtResponse() {}
+
+    // 🔑 REQUIRED BY TESTS
+    public JwtResponse(String token) {
+        this.token = token;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
 }

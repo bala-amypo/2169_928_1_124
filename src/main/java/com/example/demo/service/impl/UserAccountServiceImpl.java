@@ -1,13 +1,13 @@
 package com.example.demo.service.impl;
 
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
-
 import com.example.demo.entity.UserAccount;
 import com.example.demo.exception.BadRequestException;
 import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.repository.UserAccountRepository;
 import com.example.demo.service.UserAccountService;
+
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
 
 @Service
 public class UserAccountServiceImpl implements UserAccountService {
@@ -15,31 +15,27 @@ public class UserAccountServiceImpl implements UserAccountService {
     private final UserAccountRepository userAccountRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public UserAccountServiceImpl(UserAccountRepository repo,
-                                  PasswordEncoder encoder) {
-        this.userAccountRepository = repo;
-        this.passwordEncoder = encoder;
+    public UserAccountServiceImpl(UserAccountRepository userAccountRepository,
+                                  PasswordEncoder passwordEncoder) {
+        this.userAccountRepository = userAccountRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
-    public UserAccount register(UserAccount userAccount) {
+    public UserAccount register(UserAccount user) {
 
-        if (userAccountRepository.existsByEmail(userAccount.getEmail())) {
+        if (userAccountRepository.existsByEmail(user.getEmail())) {
             throw new BadRequestException("Email already exists");
         }
 
-        userAccount.setPassword(
-                passwordEncoder.encode(userAccount.getPassword())
-        );
-
-        return userAccountRepository.save(userAccount);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        return userAccountRepository.save(user);
     }
 
     @Override
     public UserAccount findByEmailOrThrow(String email) {
         return userAccountRepository.findByEmail(email)
                 .orElseThrow(() ->
-                        new ResourceNotFoundException(
-                                "User not found with email: " + email));
+                        new ResourceNotFoundException("User not found"));
     }
 }
