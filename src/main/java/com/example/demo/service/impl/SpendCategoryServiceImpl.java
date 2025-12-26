@@ -17,33 +17,28 @@ public class SpendCategoryServiceImpl
         this.repository = repository;
     }
 
-    @Override
-    public SpendCategory createCategory(SpendCategory category) {
-        return repository.save(category);
+    public SpendCategory createCategory(SpendCategory c) {
+        return repository.save(c);
     }
 
-    @Override
     public List<SpendCategory> getAllCategories() {
         return repository.findAll();
     }
 
-    @Override
+    public SpendCategory getCategoryById(Long id) {
+        return repository.findById(id).orElseThrow();
+    }
+
     public SpendCategory updateCategory(Long id, SpendCategory updated) {
-        SpendCategory existing =
-                repository.findById(id).orElseThrow();
-
+        SpendCategory existing = getCategoryById(id);
         existing.setName(updated.getName());
-        existing.setIsActive(updated.isIsActive());
-
+        existing.setActive(updated.isActive());
         return repository.save(existing);
     }
 
-    @Override
     public void deactivateCategory(Long id) {
-        SpendCategory category =
-                repository.findById(id).orElseThrow();
-
-        category.setIsActive(false);
-        repository.save(category);
+        SpendCategory c = getCategoryById(id);
+        c.setActive(false);
+        repository.save(c);
     }
 }

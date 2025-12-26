@@ -6,8 +6,7 @@ import com.example.demo.service.UserAccountService;
 import org.springframework.stereotype.Service;
 
 @Service
-public class UserAccountServiceImpl
-        implements UserAccountService {
+public class UserAccountServiceImpl implements UserAccountService {
 
     private final UserAccountRepository repository;
 
@@ -15,14 +14,11 @@ public class UserAccountServiceImpl
         this.repository = repository;
     }
 
-    @Override
-    public UserAccount register(UserAccount user) {
+    public UserAccount save(UserAccount user) {
         return repository.save(user);
     }
 
-    @Override
     public UserAccount findByEmailOrThrow(String email) {
-        return repository.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+        return repository.findByEmail(email).orElseThrow();
     }
 }

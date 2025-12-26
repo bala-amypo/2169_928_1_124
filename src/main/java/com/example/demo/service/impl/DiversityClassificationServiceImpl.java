@@ -13,38 +13,32 @@ public class DiversityClassificationServiceImpl
 
     private final DiversityClassificationRepository repository;
 
-    public DiversityClassificationServiceImpl(
-            DiversityClassificationRepository repository) {
+    public DiversityClassificationServiceImpl(DiversityClassificationRepository repository) {
         this.repository = repository;
     }
 
-    @Override
     public DiversityClassification createClassification(DiversityClassification c) {
         return repository.save(c);
     }
 
-    @Override
     public List<DiversityClassification> getAllClassifications() {
         return repository.findAll();
     }
 
-    @Override
+    public DiversityClassification getById(Long id) {
+        return repository.findById(id).orElseThrow();
+    }
+
     public DiversityClassification updateClassification(Long id, DiversityClassification updated) {
-        DiversityClassification existing =
-                repository.findById(id).orElseThrow();
-
+        DiversityClassification existing = getById(id);
         existing.setName(updated.getName());
-        existing.setIsActive(updated.isIsActive());
-
+        existing.setActive(updated.isActive());
         return repository.save(existing);
     }
 
-    @Override
     public void deactivateClassification(Long id) {
-        DiversityClassification c =
-                repository.findById(id).orElseThrow();
-
-        c.setIsActive(false);
+        DiversityClassification c = getById(id);
+        c.setActive(false);
         repository.save(c);
     }
 }

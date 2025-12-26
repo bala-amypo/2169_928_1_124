@@ -8,8 +8,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class SupplierServiceImpl
-        implements SupplierService {
+public class SupplierServiceImpl implements SupplierService {
 
     private final SupplierRepository repository;
 
@@ -17,33 +16,28 @@ public class SupplierServiceImpl
         this.repository = repository;
     }
 
-    @Override
-    public Supplier createSupplier(Supplier supplier) {
-        return repository.save(supplier);
+    public Supplier createSupplier(Supplier s) {
+        return repository.save(s);
     }
 
-    @Override
     public List<Supplier> getAllSuppliers() {
         return repository.findAll();
     }
 
-    @Override
+    public Supplier getSupplierById(Long id) {
+        return repository.findById(id).orElseThrow();
+    }
+
     public Supplier updateSupplier(Long id, Supplier updated) {
-        Supplier existing =
-                repository.findById(id).orElseThrow();
-
+        Supplier existing = getSupplierById(id);
         existing.setName(updated.getName());
-        existing.setIsActive(updated.isIsActive());
-
+        existing.setActive(updated.isActive());
         return repository.save(existing);
     }
 
-    @Override
     public void deactivateSupplier(Long id) {
-        Supplier supplier =
-                repository.findById(id).orElseThrow();
-
-        supplier.setIsActive(false);
-        repository.save(supplier);
+        Supplier s = getSupplierById(id);
+        s.setActive(false);
+        repository.save(s);
     }
 }
