@@ -2,12 +2,10 @@ package com.example.demo.repository;
 
 import com.example.demo.entity.DiversityTarget;
 import org.springframework.data.jpa.repository.JpaRepository;
-
 import java.util.List;
 
-public interface DiversityTargetRepository
-        extends JpaRepository<DiversityTarget, Long> {
+public interface DiversityTargetRepository extends JpaRepository<DiversityTarget, Long> {
 
-    // REQUIRED by tests
-    List<DiversityTarget> findByTargetYear(Integer year);
+    // ✅ MUST MATCH ENTITY FIELD NAME
+    List<DiversityTarget> findByYear(Integer year);
 }

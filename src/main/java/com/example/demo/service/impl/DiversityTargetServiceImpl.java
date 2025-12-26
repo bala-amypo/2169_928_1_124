@@ -8,8 +8,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class DiversityTargetServiceImpl
-        implements DiversityTargetService {
+public class DiversityTargetServiceImpl implements DiversityTargetService {
 
     private final DiversityTargetRepository repository;
 
@@ -17,28 +16,24 @@ public class DiversityTargetServiceImpl
         this.repository = repository;
     }
 
-    public DiversityTarget createTarget(DiversityTarget t) {
-        return repository.save(t);
+    @Override
+    public DiversityTarget createTarget(DiversityTarget target) {
+        return repository.save(target);
     }
 
+    @Override
+    public DiversityTarget getById(Long id) {
+        return repository.findById(id).orElse(null);
+    }
+
+    @Override
+    public List<DiversityTarget> getTargetsByYear(Integer year) {
+        // ✅ UPDATED METHOD NAME
+        return repository.findByYear(year);
+    }
+
+    @Override
     public List<DiversityTarget> getAllTargets() {
         return repository.findAll();
-    }
-
-    public List<DiversityTarget> getTargetsByYear(Integer year) {
-        return repository.findAll(); // test-safe
-    }
-
-    public DiversityTarget updateTarget(Long id, DiversityTarget updated) {
-        DiversityTarget existing = repository.findById(id).orElseThrow();
-        existing.setTargetPercentage(updated.getTargetPercentage());
-        existing.setActive(updated.isActive());
-        return repository.save(existing);
-    }
-
-    public void deactivateTarget(Long id) {
-        DiversityTarget t = repository.findById(id).orElseThrow();
-        t.setActive(false);
-        repository.save(t);
     }
 }
