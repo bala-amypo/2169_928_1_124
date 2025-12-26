@@ -19,22 +19,22 @@ public class DiversityClassificationServiceImpl
     }
 
     @Override
-    public DiversityClassification create(DiversityClassification c) {
+    public DiversityClassification createClassification(DiversityClassification c) {
         return repository.save(c);
     }
 
     @Override
-    public List<DiversityClassification> getAll() {
+    public List<DiversityClassification> getAllClassifications() {
         return repository.findAll();
     }
 
     @Override
-    public DiversityClassification update(Long id, DiversityClassification updated) {
+    public DiversityClassification updateClassification(Long id, DiversityClassification updated) {
         DiversityClassification existing =
                 repository.findById(id).orElseThrow();
 
         existing.setName(updated.getName());
-        existing.setActive(updated.isActive());
+        existing.setIsActive(updated.isIsActive());
 
         return repository.save(existing);
     }
@@ -44,7 +44,7 @@ public class DiversityClassificationServiceImpl
         DiversityClassification c =
                 repository.findById(id).orElseThrow();
 
-        c.setActive(false);
+        c.setIsActive(false);
         repository.save(c);
     }
 }

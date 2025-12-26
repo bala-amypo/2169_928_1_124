@@ -8,7 +8,8 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class SpendCategoryServiceImpl implements SpendCategoryService {
+public class SpendCategoryServiceImpl
+        implements SpendCategoryService {
 
     private final SpendCategoryRepository repository;
 
@@ -17,28 +18,32 @@ public class SpendCategoryServiceImpl implements SpendCategoryService {
     }
 
     @Override
-    public SpendCategory create(SpendCategory category) {
+    public SpendCategory createCategory(SpendCategory category) {
         return repository.save(category);
     }
 
     @Override
-    public List<SpendCategory> getAll() {
+    public List<SpendCategory> getAllCategories() {
         return repository.findAll();
     }
 
     @Override
-    public SpendCategory update(Long id, SpendCategory updated) {
+    public SpendCategory updateCategory(Long id, SpendCategory updated) {
         SpendCategory existing =
                 repository.findById(id).orElseThrow();
 
         existing.setName(updated.getName());
-        existing.setActive(updated.isActive());
+        existing.setIsActive(updated.isIsActive());
 
         return repository.save(existing);
     }
 
     @Override
-    public void delete(Long id) {
-        repository.deleteById(id);
+    public void deactivateCategory(Long id) {
+        SpendCategory category =
+                repository.findById(id).orElseThrow();
+
+        category.setIsActive(false);
+        repository.save(category);
     }
 }

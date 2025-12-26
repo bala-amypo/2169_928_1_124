@@ -8,7 +8,8 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class PurchaseOrderServiceImpl implements PurchaseOrderService {
+public class PurchaseOrderServiceImpl
+        implements PurchaseOrderService {
 
     private final PurchaseOrderRepository repository;
 
@@ -17,29 +18,12 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     }
 
     @Override
-    public PurchaseOrder create(PurchaseOrder po) {
+    public PurchaseOrder createPurchaseOrder(PurchaseOrder po) {
         return repository.save(po);
     }
 
     @Override
-    public List<PurchaseOrder> getAll() {
+    public List<PurchaseOrder> getAllPurchaseOrders() {
         return repository.findAll();
-    }
-
-    @Override
-    public PurchaseOrder update(Long id, PurchaseOrder updated) {
-        PurchaseOrder existing =
-                repository.findById(id).orElseThrow();
-
-        existing.setAmount(updated.getAmount());
-        existing.setDateIssued(updated.getDateIssued());
-        existing.setSupplier(updated.getSupplier());
-
-        return repository.save(existing);
-    }
-
-    @Override
-    public void delete(Long id) {
-        repository.deleteById(id);
     }
 }
