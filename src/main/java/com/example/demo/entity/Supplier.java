@@ -2,8 +2,8 @@ package com.example.demo.entity;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 public class Supplier {
@@ -15,20 +15,22 @@ public class Supplier {
     private String name;
     private String email;
     private String registrationNumber;
+
     private Boolean isActive;
+
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
     @ManyToMany
-    private List<DiversityClassification> diversityClassifications = new ArrayList<>();
-
-    public Supplier() {}
+    private Set<DiversityClassification> diversityClassifications = new HashSet<>();
 
     @PrePersist
     public void prePersist() {
-        this.createdAt = LocalDateTime.now();
         this.isActive = true;
+        this.createdAt = LocalDateTime.now();
     }
+
+    // ---------- GETTERS & SETTERS ----------
 
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
@@ -45,16 +47,9 @@ public class Supplier {
     }
 
     public Boolean getIsActive() { return isActive; }
-    public void setIsActive(Boolean isActive) { this.isActive = isActive; }
+    public void setIsActive(Boolean active) { this.isActive = active; }
 
     public LocalDateTime getCreatedAt() { return createdAt; }
 
     public LocalDateTime getUpdatedAt() { return updatedAt; }
-    public void setUpdatedAt(LocalDateTime updatedAt) {
-        this.updatedAt = updatedAt;
-    }
-
-    public List<DiversityClassification> getDiversityClassifications() {
-        return diversityClassifications;
-    }
-}
+    public void setUpdatedAt(LocalDateTime updatedAt

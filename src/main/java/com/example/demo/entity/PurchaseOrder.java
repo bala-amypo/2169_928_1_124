@@ -1,9 +1,3 @@
-package com.example.demo.entity;
-
-import jakarta.persistence.*;
-import java.math.BigDecimal;
-import java.time.LocalDate;
-
 @Entity
 public class PurchaseOrder {
 
@@ -22,8 +16,6 @@ public class PurchaseOrder {
     @ManyToOne
     private SpendCategory category;
 
-    public PurchaseOrder() {}
-
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
@@ -34,9 +26,7 @@ public class PurchaseOrder {
     public void setAmount(BigDecimal amount) { this.amount = amount; }
 
     public LocalDate getDateIssued() { return dateIssued; }
-    public void setDateIssued(LocalDate dateIssued) {
-        this.dateIssued = dateIssued;
-    }
+    public void setDateIssued(LocalDate dateIssued) { this.dateIssued = dateIssued; }
 
     public String getNotes() { return notes; }
     public void setNotes(String notes) { this.notes = notes; }

@@ -1,8 +1,3 @@
-package com.example.demo.entity;
-
-import jakarta.persistence.*;
-import java.time.LocalDateTime;
-
 @Entity
 public class UserAccount {
 
@@ -14,13 +9,11 @@ public class UserAccount {
     private String email;
     private String password;
     private String role;
-    private Boolean isActive;
     private LocalDateTime createdAt;
 
     public UserAccount() {}
 
-    public UserAccount(Long id, String fullName, String email,
-                       String password, String role) {
+    public UserAccount(Long id, String fullName, String email, String password, String role) {
         this.id = id;
         this.fullName = fullName;
         this.email = email;
@@ -31,13 +24,12 @@ public class UserAccount {
     @PrePersist
     public void prePersist() {
         this.createdAt = LocalDateTime.now();
-        if (this.role == null) this.role = "USER";
-        if (this.isActive == null) this.isActive = true;
+        if (this.role == null) {
+            this.role = "USER";
+        }
     }
 
     public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
-
     public String getFullName() { return fullName; }
     public void setFullName(String fullName) { this.fullName = fullName; }
 
@@ -49,9 +41,6 @@ public class UserAccount {
 
     public String getRole() { return role; }
     public void setRole(String role) { this.role = role; }
-
-    public Boolean getIsActive() { return isActive; }
-    public void setIsActive(Boolean isActive) { this.isActive = isActive; }
 
     public LocalDateTime getCreatedAt() { return createdAt; }
 }

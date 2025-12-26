@@ -1,7 +1,3 @@
-package com.example.demo.entity;
-
-import jakarta.persistence.*;
-
 @Entity
 public class DiversityTarget {
 
@@ -9,14 +5,12 @@ public class DiversityTarget {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private int targetYear;
-    private double targetPercentage;
+    private Integer targetYear;
+    private Double targetPercentage;
     private Boolean active;
 
     @ManyToOne
     private DiversityClassification classification;
-
-    public DiversityTarget() {}
 
     @PrePersist
     public void preSave() {
@@ -26,11 +20,11 @@ public class DiversityTarget {
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
-    public int getTargetYear() { return targetYear; }
-    public void setTargetYear(int targetYear) { this.targetYear = targetYear; }
+    public Integer getTargetYear() { return targetYear; }
+    public void setTargetYear(Integer targetYear) { this.targetYear = targetYear; }
 
-    public double getTargetPercentage() { return targetPercentage; }
-    public void setTargetPercentage(double targetPercentage) {
+    public Double getTargetPercentage() { return targetPercentage; }
+    public void setTargetPercentage(Double targetPercentage) {
         this.targetPercentage = targetPercentage;
     }
 
