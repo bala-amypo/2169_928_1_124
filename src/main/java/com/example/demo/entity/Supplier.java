@@ -2,6 +2,7 @@ package com.example.demo.entity;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -14,17 +15,20 @@ public class Supplier {
     private String name;
     private String email;
     private String registrationNumber;
-
+    private Boolean isActive;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
     @ManyToMany
-    private List<DiversityClassification> diversityClassifications;
+    private List<DiversityClassification> diversityClassifications = new ArrayList<>();
 
-    // REQUIRED: No-args constructor
     public Supplier() {}
 
-    // ===== Getters & Setters =====
+    @PrePersist
+    public void prePersist() {
+        this.createdAt = LocalDateTime.now();
+        this.isActive = true;
+    }
 
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
@@ -40,10 +44,10 @@ public class Supplier {
         this.registrationNumber = registrationNumber;
     }
 
+    public Boolean getIsActive() { return isActive; }
+    public void setIsActive(Boolean isActive) { this.isActive = isActive; }
+
     public LocalDateTime getCreatedAt() { return createdAt; }
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
 
     public LocalDateTime getUpdatedAt() { return updatedAt; }
     public void setUpdatedAt(LocalDateTime updatedAt) {
@@ -52,9 +56,5 @@ public class Supplier {
 
     public List<DiversityClassification> getDiversityClassifications() {
         return diversityClassifications;
-    }
-
-    public void setDiversityClassifications(List<DiversityClassification> diversityClassifications) {
-        this.diversityClassifications = diversityClassifications;
     }
 }

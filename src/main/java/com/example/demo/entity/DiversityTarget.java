@@ -11,11 +11,17 @@ public class DiversityTarget {
 
     private int targetYear;
     private double targetPercentage;
+    private Boolean active;
 
     @ManyToOne
     private DiversityClassification classification;
 
     public DiversityTarget() {}
+
+    @PrePersist
+    public void preSave() {
+        this.active = true;
+    }
 
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
@@ -27,6 +33,9 @@ public class DiversityTarget {
     public void setTargetPercentage(double targetPercentage) {
         this.targetPercentage = targetPercentage;
     }
+
+    public Boolean getActive() { return active; }
+    public void setActive(Boolean active) { this.active = active; }
 
     public DiversityClassification getClassification() { return classification; }
     public void setClassification(DiversityClassification classification) {
