@@ -14,10 +14,12 @@ public class UserAccountServiceImpl implements UserAccountService {
         this.repository = repository;
     }
 
-    public UserAccount save(UserAccount user) {
+    @Override
+    public UserAccount register(UserAccount user) {
         return repository.save(user);
     }
 
+    @Override
     public UserAccount findByEmailOrThrow(String email) {
         return repository.findByEmail(email).orElseThrow();
     }

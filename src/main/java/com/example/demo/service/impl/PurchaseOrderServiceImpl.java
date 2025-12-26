@@ -8,8 +8,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class PurchaseOrderServiceImpl
-        implements PurchaseOrderService {
+public class PurchaseOrderServiceImpl implements PurchaseOrderService {
 
     private final PurchaseOrderRepository repository;
 
@@ -17,14 +16,22 @@ public class PurchaseOrderServiceImpl
         this.repository = repository;
     }
 
+    @Override
     public PurchaseOrder createPurchaseOrder(PurchaseOrder po) {
         return repository.save(po);
     }
 
+    @Override
     public List<PurchaseOrder> getAllPurchaseOrders() {
         return repository.findAll();
     }
 
+    @Override
+    public PurchaseOrder getPurchaseOrderById(Long id) {
+        return repository.findById(id).orElseThrow();
+    }
+
+    @Override
     public List<PurchaseOrder> getPurchaseOrdersBySupplier(Long supplierId) {
         return repository.findAll(); // test-safe
     }
