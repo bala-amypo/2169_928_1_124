@@ -33,12 +33,6 @@ public class DiversityTargetServiceImpl implements DiversityTargetService {
     }
 
     @Override
-    public List<DiversityTarget> getTargetsByYear(Integer year) {
-        return repository.findByYear(year);
-    }
-
-    // ✅ THIS METHOD WAS MISSING (CAUSE OF CURRENT ERROR)
-    @Override
     public DiversityTarget updateTarget(Long id, DiversityTarget updated) {
         DiversityTarget existing = repository.findById(id).orElse(null);
         if (existing == null) {
@@ -46,7 +40,6 @@ public class DiversityTargetServiceImpl implements DiversityTargetService {
         }
 
         existing.setTargetPercentage(updated.getTargetPercentage());
-        existing.setYear(updated.getYear());
         existing.setActive(updated.isActive());
 
         return repository.save(existing);
