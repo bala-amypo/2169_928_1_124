@@ -18,13 +18,12 @@ public class DiversityTargetServiceImpl implements DiversityTargetService {
 
     @Override
     public DiversityTarget createTarget(DiversityTarget target) {
-        target.setActive(true);
         return repository.save(target);
     }
 
     @Override
     public DiversityTarget getById(Long id) {
-        return repository.findById(id).orElse(null);
+        return repository.findById(id).orElseThrow();
     }
 
     @Override
@@ -33,24 +32,17 @@ public class DiversityTargetServiceImpl implements DiversityTargetService {
     }
 
     @Override
-    public DiversityTarget updateTarget(Long id, DiversityTarget updated) {
-        DiversityTarget existing = repository.findById(id).orElse(null);
-        if (existing == null) {
-            return null;
-        }
-
-        existing.setTargetPercentage(updated.getTargetPercentage());
-        existing.setActive(updated.isActive());
-
+    public DiversityTarget updateTarget(Long id, DiversityTarget target) {
+        DiversityTarget existing = getById(id);
+        existing.setTargetPercentage(target.getTargetPercentage());
+        existing.setActive(target.isActive());
         return repository.save(existing);
     }
 
     @Override
     public void deactivateTarget(Long id) {
-        DiversityTarget target = repository.findById(id).orElse(null);
-        if (target != null) {
-            target.setActive(false);
-            repository.save(target);
-        }
+        DiversityTarget target = getById(id);
+        target.setActive(false);
+        repository.save(target);
     }
 }
