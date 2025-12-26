@@ -6,7 +6,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface SupplierRepository extends JpaRepository<Supplier, Long> {
-
-    // REQUIRED by tests
-    List<Supplier> findByIsActiveTrue();
+    boolean existsByEmail(String email);
 }
