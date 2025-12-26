@@ -35,7 +35,7 @@ public class SupplierServiceImpl implements SupplierService {
     public Supplier updateSupplier(Long id, Supplier updated) {
         Supplier existing = getSupplierById(id);
         existing.setName(updated.getName());
-        existing.setIsActive(updated.isIsActive());
+        existing.setIsActive(updated.isActive()); // ✅ FINAL FIX
         return repository.save(existing);
     }
 
