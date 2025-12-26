@@ -1,5 +1,6 @@
 package com.example.demo.config;
 
+import com.example.demo.security.JwtUtil;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -14,19 +15,16 @@ import java.util.Collections;
 @Configuration
 public class SecurityConfig {
 
-    // Required by UserAccountServiceImpl & tests
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
-    // Dummy UserDetailsService (tests mock authentication)
     @Bean
     public UserDetailsService userDetailsService() {
         return username -> null;
     }
 
-    // 🔑 THIS FIXES YOUR ERROR
     @Bean
     public AuthenticationManager authenticationManager() {
 
@@ -35,5 +33,13 @@ public class SecurityConfig {
         provider.setPasswordEncoder(passwordEncoder());
 
         return new ProviderManager(Collections.singletonList(provider));
+    }
+
+    // 🔑 FIX FOR YOUR ERROR
+    @Bean
+    public JwtUtil jwtUtil() {
+        String secret = "supplier-diversity-secret-key-1234567890";
+        byte[] secretBytes = secret.getBytes(java.nio.charset.StandardCharsets.UTF_8);
+        return new JwtUtil(secretBytes, 3600000L);
     }
 }
