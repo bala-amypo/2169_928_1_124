@@ -21,12 +21,6 @@ public class SupplierController {
         return supplierService.createSupplier(supplier);
     }
 
-    @PutMapping("/{id}")
-    public Supplier update(@PathVariable Long id,
-                           @RequestBody Supplier supplier) {
-        return supplierService.updateSupplier(id, supplier);
-    }
-
     @GetMapping("/{id}")
     public Supplier getById(@PathVariable Long id) {
         return supplierService.getSupplierById(id);
@@ -37,7 +31,7 @@ public class SupplierController {
         return supplierService.getAllSuppliers();
     }
 
-    @DeleteMapping("/{id}")
+    @PutMapping("/{id}/deactivate")
     public void deactivate(@PathVariable Long id) {
         supplierService.deactivateSupplier(id);
     }

@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/diversity-targets")
+@RequestMapping("/api/targets")
 public class DiversityTargetController {
 
     private final DiversityTargetService service;
@@ -21,10 +21,9 @@ public class DiversityTargetController {
         return service.createTarget(target);
     }
 
-    @PutMapping("/{id}")
-    public DiversityTarget update(@PathVariable Long id,
-                                  @RequestBody DiversityTarget target) {
-        return service.updateTarget(id, target);
+    @GetMapping("/year/{year}")
+    public List<DiversityTarget> getByYear(@PathVariable int year) {
+        return service.getTargetsByYear(year);
     }
 
     @GetMapping
@@ -32,8 +31,7 @@ public class DiversityTargetController {
         return service.getAllTargets();
     }
 
-
-    @DeleteMapping("/{id}")
+    @PutMapping("/{id}/deactivate")
     public void deactivate(@PathVariable Long id) {
         service.deactivateTarget(id);
     }

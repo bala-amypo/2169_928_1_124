@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/diversity-classifications")
+@RequestMapping("/api/classifications")
 public class DiversityClassificationController {
 
     private final DiversityClassificationService service;
@@ -17,19 +17,13 @@ public class DiversityClassificationController {
     }
 
     @PostMapping
-    public DiversityClassification create(@RequestBody DiversityClassification c) {
-        return service.createClassification(c);
-    }
-
-    @PutMapping("/{id}")
-    public DiversityClassification update(@PathVariable Long id,
-                                          @RequestBody DiversityClassification c) {
-        return service.updateClassification(id, c);
+    public DiversityClassification create(@RequestBody DiversityClassification dc) {
+        return service.createClassification(dc);
     }
 
     @GetMapping("/{id}")
     public DiversityClassification getById(@PathVariable Long id) {
-        return service.getById(id);
+        return service.getClassificationById(id);
     }
 
     @GetMapping
@@ -37,7 +31,7 @@ public class DiversityClassificationController {
         return service.getAllClassifications();
     }
 
-    @DeleteMapping("/{id}")
+    @PutMapping("/{id}/deactivate")
     public void deactivate(@PathVariable Long id) {
         service.deactivateClassification(id);
     }

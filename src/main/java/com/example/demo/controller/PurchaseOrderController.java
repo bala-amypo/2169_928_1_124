@@ -21,24 +21,13 @@ public class PurchaseOrderController {
         return service.createPurchaseOrder(po);
     }
 
-    @PutMapping("/{id}")
-    public PurchaseOrder update(@PathVariable Long id,
-                                @RequestBody PurchaseOrder po) {
-        return service.updatePurchaseOrder(id, po);
-    }
-
-    @GetMapping("/{id}")
-    public PurchaseOrder getById(@PathVariable Long id) {
-        return service.getPurchaseOrderById(id);
+    @GetMapping("/supplier/{supplierId}")
+    public List<PurchaseOrder> getBySupplier(@PathVariable Long supplierId) {
+        return service.getPurchaseOrdersBySupplier(supplierId);
     }
 
     @GetMapping
     public List<PurchaseOrder> getAll() {
         return service.getAllPurchaseOrders();
-    }
-
-    @GetMapping("/supplier/{supplierId}")
-    public List<PurchaseOrder> getBySupplier(@PathVariable Long supplierId) {
-        return service.getPurchaseOrdersBySupplier(supplierId);
     }
 }
