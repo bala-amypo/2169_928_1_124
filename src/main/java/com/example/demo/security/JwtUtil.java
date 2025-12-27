@@ -2,58 +2,81 @@ package com.example.demo.security;
 
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.stereotype.Component;
 
 import java.security.Key;
 import java.util.Date;
+import java.util.Map;
 
+@Component
 public class JwtUtil {
 
-    private final Key key;
-    private final long expirationMs;
+    // ⚠️ Demo secret — OK for assignment/testing
+    private static final String DEFAULT_SECRET =
+            "demo-secret-key-demo-secret-key-demo-secret-key";
 
-    // Constructor used in tests
-    public JwtUtil(byte[] secret, long expirationMs) {
-        this.key = Keys.hmacShaKeyFor(secret);
-        this.expirationMs = expirationMs;
+    private static final long DEFAULT_EXPIRATION = 3600000L; // 1 hour
+
+    private final Key signingKey;
+    private final long expirationTime;
+
+    // ✅ REQUIRED BY YOUR TEST (byte[], long)
+    public JwtUtil(byte[] secret, long expirationTime) {
+        this.signingKey = Keys.hmacShaKeyFor(secret);
+        this.expirationTime = expirationTime;
     }
 
-    // Used by AuthController (mocked in tests)
-    public String generateToken(Long userId, String email, String role) {
+    // ✅ REQUIRED BY SPRING (@Component)
+    public JwtUtil() {
+        this.signingKey = Keys.hmacShaKeyFor(DEFAULT_SECRET.getBytes());
+        this.expirationTime = DEFAULT_EXPIRATION;
+    }
 
+    // ================= TOKEN GENERATION =================
+
+    public String generateToken(Long userId, String email, String role) {
         return Jwts.builder()
+                .setClaims(Map.of(
+                        "userId", userId,
+                        "role", role
+                ))
                 .setSubject(email)
-                .claim("userId", userId)
-                .claim("role", role)
                 .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + expirationMs))
-                .signWith(key, SignatureAlgorithm.HS256)
+                .setExpiration(new Date(System.currentTimeMillis() + expirationTime))
+                .signWith(signingKey, SignatureAlgorithm.HS256)
                 .compact();
     }
 
-    public String extractEmail(String token) {
-        return parse(token).getSubject();
-    }
+    // ================= TOKEN EXTRACTION =================
 
-    public String extractRole(String token) {
-        return parse(token).get("role", String.class);
+    public String extractEmail(String token) {
+        return extractAllClaims(token).getSubject();
     }
 
     public Long extractUserId(String token) {
-        return parse(token).get("userId", Long.class);
+        return extractAllClaims(token).get("userId", Long.class);
     }
+
+    public String extractRole(String token) {
+        return extractAllClaims(token).get("role", String.class);
+    }
+
+    // ================= VALIDATION =================
 
     public boolean validateToken(String token) {
         try {
-            parse(token);
+            extractAllClaims(token);
             return true;
-        } catch (Exception e) {
+        } catch (JwtException | IllegalArgumentException e) {
             return false;
         }
     }
 
-    private Claims parse(String token) {
+    // ================= INTERNAL =================
+
+    private Claims extractAllClaims(String token) {
         return Jwts.parserBuilder()
-                .setSigningKey(key)
+                .setSigningKey(signingKey)
                 .build()
                 .parseClaimsJws(token)
                 .getBody();
